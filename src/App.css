@@ -511,6 +511,121 @@ input[type='range'] {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.job-log-layout {
+  align-items: start;
+}
+
+.mobile-job-card {
+  gap: 20px;
+}
+
+.job-stepper {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.job-step-pill,
+.rating-chip {
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  background: rgba(15, 23, 42, 0.72);
+  color: #cbd5e1;
+  border-radius: 999px;
+  padding: 10px 14px;
+  white-space: nowrap;
+}
+
+.job-step-pill.active,
+.rating-chip.active {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.28), rgba(249, 115, 22, 0.24));
+  color: #f8fafc;
+}
+
+.job-progress-card,
+.job-summary-card {
+  display: grid;
+  gap: 4px;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(15, 23, 42, 0.68);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.job-progress-card strong,
+.job-summary-card strong,
+.field-block span {
+  color: #f8fafc;
+}
+
+.mobile-form-stack {
+  display: grid;
+  gap: 16px;
+}
+
+.mobile-split-grid,
+.job-nav-row,
+.job-history-metrics,
+.rating-row {
+  display: grid;
+  gap: 12px;
+}
+
+.mobile-split-grid,
+.job-history-metrics {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.field-block {
+  display: grid;
+  gap: 8px;
+}
+
+.field-block span {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.touch-input {
+  min-height: 56px;
+  font-size: 1rem;
+}
+
+.touch-textarea {
+  min-height: 132px;
+}
+
+.rating-row {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.rating-chip {
+  min-height: 52px;
+  font-weight: 700;
+}
+
+.job-nav-row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.job-nav-row button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.job-history-card {
+  gap: 12px;
+}
+
+.job-history-metrics span {
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(2, 6, 23, 0.42);
+  color: #cbd5e1;
+  font-size: 0.9rem;
+}
+
 .mobile-nav {
   display: none;
 }
@@ -578,5 +693,26 @@ input[type='range'] {
 
   .mobile-nav-item {
     min-width: 72px;
+  }
+
+  .job-stepper {
+    margin-inline: -2px;
+  }
+
+  .mobile-split-grid,
+  .job-history-metrics,
+  .job-nav-row {
+    grid-template-columns: 1fr;
+  }
+
+  .rating-row {
+    grid-template-columns: repeat(5, minmax(44px, 1fr));
+  }
+
+  .touch-input,
+  .rating-chip,
+  .primary-button,
+  .ghost-button {
+    min-height: 54px;
   }
 }

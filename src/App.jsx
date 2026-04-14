@@ -347,8 +347,16 @@ function App() {
   const [chatInput, setChatInput] = useState('')
   const [foamForm, setFoamForm] = useState({ manufacturer: '', product: '', type: 'open', rValue: '', yield: '', ratio: '1:1', minTemp: '', maxTemp: '', substrates: '', notes: '' })
   const [jobForm, setJobForm] = useState({ date: '', location: '', foam: 'Enverge EasySeal .5', sets: '', bf: '', ambT: '', subT: '', rh: '', rating: '5', problems: '', notes: '' })
+  const [jobStep, setJobStep] = useState(0)
   const [equipmentForm, setEquipmentForm] = useState({ date: '', gunModel: 'Fusion AP', hoseTempA: '', hoseTempB: '', drumTempA: '', drumTempB: '', pressureA: '', pressureB: '', notes: '' })
   const [calculator, setCalculator] = useState({ ambient: 68, substrate: 60, humidity: 50, foamType: 'open' })
+
+  const jobSteps = [
+    { id: 'basics', label: 'Basics' },
+    { id: 'production', label: 'Production' },
+    { id: 'conditions', label: 'Conditions' },
+    { id: 'notes', label: 'Notes' },
+  ]
 
   useEffect(() => {
     setFoamSystems(readStorage(STORAGE_KEYS.foamSystems, defaultFoamSystems))
@@ -414,6 +422,19 @@ function App() {
     event.preventDefault()
     setJobs((current) => [{ id: crypto.randomUUID(), ...jobForm }, ...current])
     setJobForm({ date: '', location: '', foam: 'Enverge EasySeal .5', sets: '', bf: '', ambT: '', subT: '', rh: '', rating: '5', problems: '', notes: '' })
+    setJobStep(0)
+  }
+
+  function updateJobField(field, value) {
+    setJobForm((current) => ({ ...current, [field]: value }))
+  }
+
+  function nextJobStep() {
+    setJobStep((current) => Math.min(current + 1, jobSteps.length - 1))
+  }
+
+  function previousJobStep() {
+    setJobStep((current) => Math.max(current - 1, 0))
   }
 
   function addEquipment(event) {
@@ -579,36 +600,138 @@ function App() {
         )
       case 'job-log':
         return (
-          <section className="content-grid two-column-layout">
-            <form className="glass-card panel-card form-card" onSubmit={addJob}>
-              <SectionHeader title="Log job" subtitle="Capture production and field issues" />
-              <div className="form-grid">
-                <input className="glass-input" type="date" value={jobForm.date} onChange={(event) => setJobForm({ ...jobForm, date: event.target.value })} required />
-                <input className="glass-input" placeholder="Location" value={jobForm.location} onChange={(event) => setJobForm({ ...jobForm, location: event.target.value })} required />
-                <input className="glass-input" placeholder="Foam used" value={jobForm.foam} onChange={(event) => setJobForm({ ...jobForm, foam: event.target.value })} required />
-                <input className="glass-input" placeholder="Sets" value={jobForm.sets} onChange={(event) => setJobForm({ ...jobForm, sets: event.target.value })} required />
-                <input className="glass-input" placeholder="Board feet" value={jobForm.bf} onChange={(event) => setJobForm({ ...jobForm, bf: event.target.value })} required />
-                <input className="glass-input" placeholder="Ambient temp F" value={jobForm.ambT} onChange={(event) => setJobForm({ ...jobForm, ambT: event.target.value })} required />
-                <input className="glass-input" placeholder="Substrate temp F" value={jobForm.subT} onChange={(event) => setJobForm({ ...jobForm, subT: event.target.value })} required />
-                <input className="glass-input" placeholder="Humidity %" value={jobForm.rh} onChange={(event) => setJobForm({ ...jobForm, rh: event.target.value })} required />
-                <input className="glass-input" placeholder="Rating 1-5" value={jobForm.rating} onChange={(event) => setJobForm({ ...jobForm, rating: event.target.value })} required />
-                <input className="glass-input span-2" placeholder="Problems" value={jobForm.problems} onChange={(event) => setJobForm({ ...jobForm, problems: event.target.value })} />
-                <textarea className="glass-input span-2" rows="4" placeholder="Notes" value={jobForm.notes} onChange={(event) => setJobForm({ ...jobForm, notes: event.target.value })} />
+          <section className="content-grid two-column-layout job-log-layout">
+            <form className="glass-card panel-card form-card mobile-job-card" onSubmit={addJob}>
+              <SectionHeader title="Quick log job" subtitle="Built for iPhone-speed entry" />
+
+              <div className="job-stepper">
+                {jobSteps.map((step, index) => (
+                  <button
+                    key={step.id}
+                    type="button"
+                    className={index === jobStep ? 'job-step-pill active' : 'job-step-pill'}
+                    onClick={() => setJobStep(index)}
+                  >
+                    {index + 1}. {step.label}
+                  </button>
+                ))}
               </div>
-              <button className="primary-button" type="submit">Log Job</button>
+
+              <div className="job-progress-card">
+                <small>Step {jobStep + 1} of {jobSteps.length}</small>
+                <strong>{jobSteps[jobStep].label}</strong>
+              </div>
+
+              {jobStep === 0 && (
+                <div className="mobile-form-stack">
+                  <label className="field-block">
+                    <span>Date</span>
+                    <input className="glass-input touch-input" type="date" value={jobForm.date} onChange={(event) => updateJobField('date', event.target.value)} required />
+                  </label>
+                  <label className="field-block">
+                    <span>Job location</span>
+                    <input className="glass-input touch-input" placeholder="Lincoln attic retrofit" value={jobForm.location} onChange={(event) => updateJobField('location', event.target.value)} required />
+                  </label>
+                  <label className="field-block">
+                    <span>Foam used</span>
+                    <input className="glass-input touch-input" placeholder="Enverge EasySeal .5" value={jobForm.foam} onChange={(event) => updateJobField('foam', event.target.value)} required />
+                  </label>
+                </div>
+              )}
+
+              {jobStep === 1 && (
+                <div className="mobile-form-stack">
+                  <div className="mobile-split-grid">
+                    <label className="field-block">
+                      <span>Sets used</span>
+                      <input className="glass-input touch-input" inputMode="numeric" placeholder="2" value={jobForm.sets} onChange={(event) => updateJobField('sets', event.target.value)} required />
+                    </label>
+                    <label className="field-block">
+                      <span>Board feet</span>
+                      <input className="glass-input touch-input" inputMode="numeric" placeholder="39200" value={jobForm.bf} onChange={(event) => updateJobField('bf', event.target.value)} required />
+                    </label>
+                  </div>
+                  <label className="field-block">
+                    <span>Overall job rating</span>
+                    <div className="rating-row">
+                      {[1, 2, 3, 4, 5].map((value) => (
+                        <button
+                          key={value}
+                          type="button"
+                          className={Number(jobForm.rating) === value ? 'rating-chip active' : 'rating-chip'}
+                          onClick={() => updateJobField('rating', String(value))}
+                        >
+                          {value}
+                        </button>
+                      ))}
+                    </div>
+                  </label>
+                </div>
+              )}
+
+              {jobStep === 2 && (
+                <div className="mobile-form-stack">
+                  <div className="mobile-split-grid">
+                    <label className="field-block">
+                      <span>Ambient temp</span>
+                      <input className="glass-input touch-input" inputMode="numeric" placeholder="67" value={jobForm.ambT} onChange={(event) => updateJobField('ambT', event.target.value)} required />
+                    </label>
+                    <label className="field-block">
+                      <span>Substrate temp</span>
+                      <input className="glass-input touch-input" inputMode="numeric" placeholder="61" value={jobForm.subT} onChange={(event) => updateJobField('subT', event.target.value)} required />
+                    </label>
+                  </div>
+                  <label className="field-block">
+                    <span>Humidity %</span>
+                    <input className="glass-input touch-input" inputMode="numeric" placeholder="48" value={jobForm.rh} onChange={(event) => updateJobField('rh', event.target.value)} required />
+                  </label>
+                </div>
+              )}
+
+              {jobStep === 3 && (
+                <div className="mobile-form-stack">
+                  <label className="field-block">
+                    <span>Problems noticed</span>
+                    <input className="glass-input touch-input" placeholder="Minor sagging on west wall lifts" value={jobForm.problems} onChange={(event) => updateJobField('problems', event.target.value)} />
+                  </label>
+                  <label className="field-block">
+                    <span>Notes</span>
+                    <textarea className="glass-input touch-input touch-textarea" rows="5" placeholder="What changed, what worked, what went wrong" value={jobForm.notes} onChange={(event) => updateJobField('notes', event.target.value)} />
+                  </label>
+                  <div className="job-summary-card">
+                    <strong>{jobForm.location || 'New job log'}</strong>
+                    <small>{jobForm.foam || 'Foam not set yet'} • {jobForm.sets || '0'} set(s) • {jobForm.bf || '0'} bf</small>
+                  </div>
+                </div>
+              )}
+
+              <div className="job-nav-row">
+                <button type="button" className="ghost-button" onClick={previousJobStep} disabled={jobStep === 0}>Back</button>
+                {jobStep < jobSteps.length - 1 ? (
+                  <button type="button" className="primary-button" onClick={nextJobStep}>Next</button>
+                ) : (
+                  <button className="primary-button" type="submit">Save Job</button>
+                )}
+              </div>
             </form>
 
             <div className="glass-card panel-card">
-              <SectionHeader title="Recent job history" subtitle="Newest first" />
+              <SectionHeader title="Recent job history" subtitle="Fast review after entry" />
               <div className="stack-list">
                 {jobs.map((job) => (
-                  <article className="list-card" key={job.id}>
+                  <article className="list-card job-history-card" key={job.id}>
                     <div className="list-topline">
                       <strong>{job.location}</strong>
                       <span>{job.date}</span>
                     </div>
-                    <p>{job.foam} • {job.bf} bf • {job.sets} set(s) • {job.ambT}F ambient</p>
-                    <small>Problems: {job.problems || 'None'} • Rating: {job.rating}/5 • {job.notes}</small>
+                    <p>{job.foam} • {job.bf} bf • {job.sets} set(s)</p>
+                    <div className="job-history-metrics">
+                      <span>{job.ambT}F ambient</span>
+                      <span>{job.subT}F substrate</span>
+                      <span>{job.rh}% RH</span>
+                      <span>Rating {job.rating}/5</span>
+                    </div>
+                    <small>Problems: {job.problems || 'None'} • {job.notes || 'No notes logged.'}</small>
                   </article>
                 ))}
               </div>
