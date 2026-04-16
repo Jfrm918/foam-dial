@@ -218,6 +218,20 @@ const defaultDiagnostics = [
 
 const defaultJobs = [
   {
+    id: 'job-2026-04-16-tulsa-51st-mingo-wood',
+    date: '2026-04-16',
+    location: 'Tulsa, 51st and Mingo, wood substrate',
+    foam: 'Enverge open cell',
+    sets: '',
+    bf: '',
+    ambT: '70',
+    subT: '',
+    rh: '84',
+    rating: '5',
+    problems: '',
+    notes: 'Start log for second job. Spraying wood substrate. Current weather around start was roughly 70F, 84% RH, overcast, south wind about 11 mph. Rig screen photo at 12:13 shows hose target 145F, A 124F, B 121F, hose actual 138F, transfer pressures A 81 psi and B 67 psi, main pressure 1120 psi.',
+  },
+  {
     id: 'job-2026-04-16-tulsa-hills-common-wall',
     date: '2026-04-16',
     location: 'Tulsa Hills common wall, sheetrock substrate',
