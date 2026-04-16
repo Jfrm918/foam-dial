@@ -216,7 +216,22 @@ const defaultDiagnostics = [
   },
 ]
 
-const defaultJobs = []
+const defaultJobs = [
+  {
+    id: 'job-2026-04-16-tulsa-hills-common-wall',
+    date: '2026-04-16',
+    location: 'Tulsa Hills common wall, sheetrock substrate',
+    foam: 'Enverge open cell',
+    sets: '',
+    bf: '',
+    ambT: '56',
+    subT: '',
+    rh: '67',
+    rating: '5',
+    problems: '',
+    notes: 'Start log. Flat spray against sheetrock on common wall. Tulsa Hills weather at start roughly 56F, 67% RH, light SSE wind, mist early. Rig start settings from photo: hose target 145F, A 145F, B 146F, A pressure 1065 psi, B pressure 1080 psi.',
+  },
+]
 
 const defaultEquipment = [
   {
