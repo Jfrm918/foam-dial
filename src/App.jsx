@@ -449,6 +449,7 @@ function App() {
                 <p className="eyebrow">Spray foam intelligence hub</p>
                 <h1>FOAM DIAL</h1>
                 <p className="hero-copy">Track jobs, lock in better yield, and keep field diagnostics one tap away.</p>
+                <p className="live-test-banner">LIVE TEST ACTIVE</p>
               </div>
               <div className="hero-actions">
                 <button className="primary-button" onClick={() => setActiveSection('job-log')}>Log Job</button>

@@ -247,6 +247,18 @@
   margin-bottom: 8px;
 }
 
+.live-test-banner {
+  display: inline-flex;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: #facc15;
+  color: #111827;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  box-shadow: 0 12px 30px rgba(250, 204, 21, 0.28);
+}
+
 .hero-card h1,
 .topbar h2,
 .section-header h3,
