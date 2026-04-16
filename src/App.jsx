@@ -831,7 +831,7 @@ function App() {
           <div className="brand-mark">FD</div>
           <div>
             <div className="brand-title">FOAM DIAL</div>
-            <p>Field intelligence, dialed in.</p>
+            <p>Field intelligence, dialed in and live.</p>
           </div>
         </div>
 
