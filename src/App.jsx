@@ -216,36 +216,7 @@ const defaultDiagnostics = [
   },
 ]
 
-const defaultJobs = [
-  {
-    id: 'job-1',
-    date: '2026-04-10',
-    location: 'Lincoln attic retrofit',
-    foam: 'Enverge EasySeal .5',
-    sets: '2',
-    bf: '39200',
-    ambT: '67',
-    subT: '61',
-    rh: '48',
-    rating: '5',
-    problems: 'None',
-    notes: 'Good yield. Tight cell structure. EasySeal stayed predictable through full attic run.',
-  },
-  {
-    id: 'job-2',
-    date: '2026-04-08',
-    location: 'Metal building office shell',
-    foam: 'Enverge EasySeal .5',
-    sets: '1',
-    bf: '19850',
-    ambT: '71',
-    subT: '64',
-    rh: '55',
-    rating: '4',
-    problems: 'Minor sagging on west wall lifts',
-    notes: 'Dropped hose temp 5F after lunch and issue cleared up.',
-  },
-]
+const defaultJobs = []
 
 const defaultEquipment = [
   {
